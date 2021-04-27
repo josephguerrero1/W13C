@@ -1,19 +1,64 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h2>Welcome</h2>
+    <div id="list-container">
+      <song-list
+        :songs="songlistSongs"
+        @songClicked="songlistSongClicked"
+      ></song-list>
+      <play-list :songs="playlistSongs"></play-list>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import SongList from "@/components/SongList.vue";
+import PlayList from "@/components/PlayList.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    SongList,
+    PlayList,
+  },
+  methods: {
+    songlistSongClicked(artist) {
+      for (let i = 0; i < this.songlistSongs.length; i++) {
+        if (this.songlistSongs[i].artist == artist) {
+          this.playlistSongs.push(this.songlistSongs[i]);
+          this.songlistSongs.splice(i, 1);
+        }
+      }
+    },
+  },
+  data() {
+    return {
+      songlistSongs: [
+        {
+          artist: "A",
+          song: "1",
+        },
+        {
+          artist: "B",
+          song: "2",
+        },
+        {
+          artist: "C",
+          song: "3",
+        },
+        {
+          artist: "D",
+          song: "4",
+        },
+        {
+          artist: "E",
+          song: "5",
+        },
+      ],
+      playlistSongs: [],
+    };
+  },
+};
 </script>
 
 <style>
@@ -24,5 +69,10 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+#list-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 </style>
